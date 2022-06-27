@@ -35,12 +35,12 @@ class MentalHealthFeedback(models.Model):
     subscription = models.ForeignKey(
         Subscription, related_name='subscription_mental_health', on_delete=models.CASCADE)
     session_rating = models.IntegerField(
-        null=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
+        null=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
     session_review = models.TextField(blank=True, default='', null=True)
-    follow_up = models.CharField(choices=YES_NO, max_length=50)
+    follow_up = models.CharField(null=True, choices=YES_NO, max_length=50)
     no_follow_up_review = models.TextField(blank=True, default='', null=True)
     nps_rating = models.IntegerField(
-        null=False, validators=[MinValueValidator(1), MaxValueValidator(10)])
+        null=True, validators=[MinValueValidator(1), MaxValueValidator(10)])
     nps_review = models.TextField(blank=True, default='', null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)

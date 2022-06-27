@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import status, viewsets
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -9,6 +10,42 @@ from .models import (
     MentalHealthFeedback, PostBookingFeedback, PostOrderFeedback, NpsFeedback, PostAppointmentFeedback)
 from .serializers import (MentalHealthSerializer, PostBookingSerializer, PostOrderSerializer,
                           NpsSerializer, PostAppointmentSerializer)
+from subscription.models import Subscription
+
+
+
+class MentalHealthView(viewsets.ModelViewSet):
+    """API View for Mental Health Feedback."""
+    serializer_class = MentalHealthSerializer
+    queryset = MentalHealthFeedback.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Create a new Mental Health Feedback."""
+        request.data['user'] = request.user.id
+        request.data['subscription'] = Subscription.objects.get(user=request.user.id).id
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class PostBookingView(viewsets.ModelViewSet):
+    """API View for Post Booking Feedback."""
+    serializer_class = MentalHealthSerializer
+    queryset = MentalHealthFeedback.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Create a new Mental Health Feedback."""
+        request.data['user'] = request.user.id
+        request.data['subscription'] = Subscription.objects.get(user=request.user.id).id
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 

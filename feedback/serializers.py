@@ -2,66 +2,55 @@ from rest_framework import serializers
 
 from .models import (MentalHealthFeedback, PostBookingFeedback,
                              PostOrderFeedback, NpsFeedback, PostAppointmentFeedback)
-# from patients.serializers import UserSerializer, PatientSerializer
 
 
 class  MentalHealthSerializer(serializers.ModelSerializer):
-    class Meta:
-        model =  MentalHealthFeedback
-        exclude = ('created_at','updated_at')
+    """Serializer for Mental Health Feedback"""
 
-    def create(self, validated_data):
-        create = super().create(validated_data)
-        # assert isinstance(create, object)
-        return create
+    class Meta:
+        model = MentalHealthFeedback
+        exclude = ('created_at', 'updated_at')
+        # read_only_fields = ['id']
+
+    # def create(self, validated_data):
+    #     create = super().create(validated_data)
+    #     return create
 
 
 class  PostBookingSerializer(serializers.ModelSerializer):
+    """Serializer for Post Booking Feedback"""
+
     class Meta:
-        model =  PostBookingFeedback
-        exclude = ('created_at','updated_at')
-
-    def create(self, validated_data):
-        create = super().create(validated_data)
-
-        # assert isinstance(create, object)
-        return create
+        model = PostBookingFeedback
+        exclude = ('created_at', 'updated_at')
+        read_only_fields = ['id']
 
 
 class  PostOrderSerializer(serializers.ModelSerializer):
+    """Serializer for Post Order Feedback"""
+
     class Meta:
-        model =  PostOrderFeedback
-        exclude = ('created_at','updated_at')
-
-    def create(self, validated_data):
-        create = super().create(validated_data)
-
-        # assert isinstance(create, object)
-        return create
+        model = PostOrderFeedback
+        exclude = ('created_at', 'updated_at')
+        read_only_fields = ['id']
 
 
 class  NpsSerializer(serializers.ModelSerializer):
+    """Serializer for Nps Feedback"""
+
     class Meta:
-        model =  NpsFeedback
-        exclude = ('created_at','updated_at')
-
-    def create(self, validated_data):
-        create = super().create(validated_data)
-
-        # assert isinstance(create, object)
-        return create
+        model = NpsFeedback
+        exclude = ('created_at', 'updated_at')
+        read_only_fields = ['id']
 
 
 class  PostAppointmentSerializer(serializers.ModelSerializer):
+    """Serializer for Post Appointment Feedback"""
+
     class Meta:
-        model =  PostAppointmentFeedback
-        exclude = ('created_at','updated_at')
-
-    def create(self, validated_data):
-        create = super().create(validated_data)
-
-        # assert isinstance(create, object)
-        return create
+        model = PostAppointmentFeedback
+        exclude = ('created_at', 'updated_at')
+        read_only_fields = ['id']
 
 #
 # class PreDeliverySerializer(serializers.ModelSerializer):
