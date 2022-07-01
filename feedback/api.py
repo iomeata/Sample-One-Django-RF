@@ -11,6 +11,8 @@ from .models import (
 from .serializers import (MentalHealthSerializer, PostBookingSerializer, PostOrderSerializer,
                           NpsSerializer, PostAppointmentSerializer)
 from subscription.models import Subscription
+from appointments.models import Appointment
+from orders.models import Order
 
 
 
@@ -22,30 +24,87 @@ class MentalHealthView(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         """Create a new Mental Health Feedback."""
+        instance = MentalHealthFeedback.objects.get(user=request.user)
+        if instance and request.method == 'POST':
+            return Response(
+                {'data': 'There exists a rating for this review. Use PATCH.',
+                 'id': instance.id}, status.HTTP_400_BAD_REQUEST)
         request.data['user'] = request.user.id
         request.data['subscription'] = Subscription.objects.get(user=request.user.id).id
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            {"data": serializer.data}, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class PostBookingView(viewsets.ModelViewSet):
     """API View for Post Booking Feedback."""
-    serializer_class = MentalHealthSerializer
-    queryset = MentalHealthFeedback.objects.all()
+    serializer_class = PostBookingSerializer
+    queryset = PostBookingFeedback.objects.all()
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        """Create a new Mental Health Feedback."""
+        """Create a new Post Booking Feedback."""
         request.data['user'] = request.user.id
-        request.data['subscription'] = Subscription.objects.get(user=request.user.id).id
+        request.data['appointment'] = Appointment.objects.get(user=request.user.id).id
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class PostOrderView(viewsets.ModelViewSet):
+    """API View for Post Order Feedback."""
+    serializer_class = PostOrderSerializer
+    queryset = PostOrderFeedback.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Create a new Post Order Feedback."""
+        request.data['user'] = request.user.id
+        request.data['order'] = Order.objects.get(user=request.user.id).id
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class NpsView(viewsets.ModelViewSet):
+    """API View for Nps Feedback."""
+    serializer_class = NpsSerializer
+    queryset = NpsFeedback.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Create a new Nps Feedback."""
+        request.data['user'] = request.user.id
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class PostAppointmentView(viewsets.ModelViewSet):
+    """API View for Post Appointment Feedback."""
+    serializer_class = PostAppointmentSerializer
+    queryset = PostAppointmentFeedback.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Create a new Post Appointment Feedback."""
+        request.data['user'] = request.user.id
+        request.data['appointment'] = Appointment.objects.get(user=request.user.id).id
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 
 

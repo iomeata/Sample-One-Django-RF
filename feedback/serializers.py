@@ -10,7 +10,6 @@ class  MentalHealthSerializer(serializers.ModelSerializer):
     class Meta:
         model = MentalHealthFeedback
         exclude = ('created_at', 'updated_at')
-        # read_only_fields = ['id']
 
     # def create(self, validated_data):
     #     create = super().create(validated_data)
@@ -23,7 +22,6 @@ class  PostBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostBookingFeedback
         exclude = ('created_at', 'updated_at')
-        read_only_fields = ['id']
 
 
 class  PostOrderSerializer(serializers.ModelSerializer):
@@ -32,7 +30,6 @@ class  PostOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostOrderFeedback
         exclude = ('created_at', 'updated_at')
-        read_only_fields = ['id']
 
 
 class  NpsSerializer(serializers.ModelSerializer):
@@ -41,7 +38,6 @@ class  NpsSerializer(serializers.ModelSerializer):
     class Meta:
         model = NpsFeedback
         exclude = ('created_at', 'updated_at')
-        read_only_fields = ['id']
 
 
 class  PostAppointmentSerializer(serializers.ModelSerializer):
@@ -50,7 +46,6 @@ class  PostAppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostAppointmentFeedback
         exclude = ('created_at', 'updated_at')
-        read_only_fields = ['id']
 
 #
 # class PreDeliverySerializer(serializers.ModelSerializer):
